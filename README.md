@@ -1,6 +1,6 @@
 ## What
 
-A simple demonstration project if you would like to test [purescript-flare](https://github.com/sharkdp/purescript-flare). 
+A simple demonstration project if you would like to test [purescript-flare](https://github.com/sharkdp/purescript-flare). This is how it looks like in action: [live demo](http://sharkdp.github.io/flare-example/).
 
 ## Quick start
 
