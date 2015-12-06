@@ -1,0 +1,38 @@
+.flare-input > label {
+    display: inline-block;
+    width: 100px;
+}
+
+.flare-input {
+    margin-bottom: 10px;
+}
+
+.flare-input-number {
+    width: 85px;
+}
+
+input:invalid {
+    background-color: red;
+}
+
+fieldset {
+    border: none;
+    padding: 0px;
+}
+
+fieldset legend {
+    padding: 0px;
+    width: 100px;
+    float: left;
+}
+
+fieldset label {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#output {
+    margin-top: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
