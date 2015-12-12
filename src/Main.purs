@@ -20,15 +20,17 @@ fromKelvin Celsius    tc = tc - 273.15
 fromKelvin Kelvin     tk = tk
 fromKelvin Fahrenheit tf = (tf * 9.0 / 5.0) - 459.67
 
-convert :: Number -> TUnit -> TUnit -> Number
-convert t from to = (round <<< fromKelvin to <<< toKelvin from) t
+convert :: TUnit -> TUnit -> Number -> Number
+convert from to = round <<< fromKelvin to <<< toKelvin from
 
-render :: Number -> String
-render t = "Converted temperature: " ++ show t
+render :: Number -> TUnit -> TUnit -> String
+render t from to = show t  ++ toString from ++ " corresponds to " ++
+                   show t' ++ toString to
+  where t' = convert from to t
 
-flare = render <$> (convert <$> number "Temperature" 100.0
-                            <*> unit "Unit"
-                            <*> unit "Convert to")
+flare = render <$> number "Temperature" 100.0
+               <*> unit "Unit"
+               <*> unit "Convert to"
 
   where unit label = radioGroup label Celsius [Kelvin, Fahrenheit] toString
 
