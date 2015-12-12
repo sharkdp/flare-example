@@ -6,10 +6,9 @@ import Flare
 
 data TUnit = Celsius | Kelvin | Fahrenheit
 
-instance showTUnit :: Show TUnit where
-  show Celsius = "°C"
-  show Kelvin = "K"
-  show Fahrenheit = "°F"
+toString Celsius    = "°C"
+toString Kelvin     = "K"
+toString Fahrenheit = "°F"
 
 toKelvin :: TUnit -> Number -> Number
 toKelvin Celsius    tc = tc + 273.15
@@ -24,10 +23,13 @@ fromKelvin Fahrenheit tf = (tf * 9.0 / 5.0) - 459.67
 convert :: Number -> TUnit -> TUnit -> Number
 convert t from to = (round <<< fromKelvin to <<< toKelvin from) t
 
-flare = convert <$> number "Temperature" 100.0
-                <*> unit "Unit"
-                <*> unit "Convert to"
+render :: Number -> String
+render t = "Converted temperature: " ++ show t
 
-  where unit label = radioGroup label Celsius [Kelvin, Fahrenheit]
+flare = render <$> (convert <$> number "Temperature" 100.0
+                            <*> unit "Unit"
+                            <*> unit "Convert to")
+
+  where unit label = radioGroup label Celsius [Kelvin, Fahrenheit] toString
 
 main = runFlare "controls" "output" flare
