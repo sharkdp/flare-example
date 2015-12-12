@@ -79,13 +79,6 @@ var PS = { };
   };
   var id = function (dict) {
       return dict.id;
-  };                                                
-  var flip = function (f) {
-      return function (b) {
-          return function (a) {
-              return f(a)(b);
-          };
-      };
   };
   var $$const = function (a) {
       return function (_3) {
@@ -94,9 +87,6 @@ var PS = { };
   };
   var compose = function (dict) {
       return dict.compose;
-  };
-  var $greater$greater$greater = function (__dict_Semigroupoid_15) {
-      return flip(compose(__dict_Semigroupoid_15));
   };
   var categoryFn = new Category(function () {
       return semigroupoidFn;
@@ -158,10 +148,8 @@ var PS = { };
   exports["<$>"] = $less$dollar$greater;
   exports["map"] = map;
   exports["id"] = id;
-  exports[">>>"] = $greater$greater$greater;
   exports["compose"] = compose;
   exports["const"] = $$const;
-  exports["flip"] = flip;
   exports["unit"] = unit;
   exports["semigroupoidFn"] = semigroupoidFn;
   exports["categoryFn"] = categoryFn;
@@ -441,8 +429,8 @@ var PS = { };
     return value;
   } 
 
-  exports.cRadioGroup = function(showX) {
-    return function(xs) {
+  exports.cRadioGroup = function(xs) {
+    return function(toString) {
       return function(id) {
         return createComponent("radioGroup",
           function(initial) {
@@ -469,7 +457,7 @@ var PS = { };
               fieldset.appendChild(op);
 
               label = document.createElement("label");
-              label.appendChild(document.createTextNode(showX.show(x)));
+              label.appendChild(document.createTextNode(toString(x)));
               label.htmlFor = xid;
               fieldset.appendChild(label);
             }
@@ -615,9 +603,11 @@ var PS = { };
   "use strict";
   var $foreign = PS["Flare"];
   var Prelude = PS["Prelude"];
+  var Data_Array = PS["Data.Array"];
   var Data_Maybe = PS["Data.Maybe"];
   var Data_Monoid = PS["Data.Monoid"];
   var Data_Foldable = PS["Data.Foldable"];
+  var Data_Traversable = PS["Data.Traversable"];
   var Control_Apply = PS["Control.Apply"];
   var Control_Monad_Eff = PS["Control.Monad.Eff"];
   var DOM = PS["DOM"];
@@ -651,11 +641,9 @@ var PS = { };
           };
       };
   };
-  var runFlare = function (__dict_Show_2) {
-      return function (controls) {
-          return function (target) {
-              return runFlareWith(controls)(Prelude[">>>"](Prelude.semigroupoidFn)(Prelude.show(__dict_Show_2))($foreign.renderString(target)));
-          };
+  var runFlare = function (controls) {
+      return function (target) {
+          return runFlareWith(controls)($foreign.renderString(target));
       };
   };
   var functorFlare = new Prelude.Functor(function (f) {
@@ -683,11 +671,11 @@ var PS = { };
       };
   };                             
   var number = createUI($foreign.cNumber);
-  var radioGroup = function (__dict_Show_8) {
-      return function (id) {
-          return function ($$default) {
-              return function (xs) {
-                  return createUI($foreign.cRadioGroup(__dict_Show_8)(xs))(id)($$default);
+  var radioGroup = function (id) {
+      return function ($$default) {
+          return function (xs) {
+              return function (toString) {
+                  return createUI($foreign.cRadioGroup(xs)(toString))(id)($$default);
               };
           };
       };
@@ -759,69 +747,78 @@ var PS = { };
       Fahrenheit.value = new Fahrenheit();
       return Fahrenheit;
   })();
-  var toKelvin = function (_0) {
-      return function (_1) {
-          if (_0 instanceof Celsius) {
-              return _1 + 273.15;
-          };
-          if (_0 instanceof Kelvin) {
-              return _1;
-          };
-          if (_0 instanceof Fahrenheit) {
-              return ((_1 + 459.67) * 5.0) / 9.0;
-          };
-          throw new Error("Failed pattern match at Main line 14, column 1 - line 15, column 1: " + [ _0.constructor.name, _1.constructor.name ]);
-      };
-  };
-  var showTUnit = new Prelude.Show(function (_4) {
-      if (_4 instanceof Celsius) {
+  var toString = function (_0) {
+      if (_0 instanceof Celsius) {
           return "\xb0C";
       };
-      if (_4 instanceof Kelvin) {
+      if (_0 instanceof Kelvin) {
           return "K";
       };
-      if (_4 instanceof Fahrenheit) {
+      if (_0 instanceof Fahrenheit) {
           return "\xb0F";
       };
-      throw new Error("Failed pattern match at Main line 9, column 1 - line 14, column 1: " + [ _4.constructor.name ]);
-  });
-  var fromKelvin = function (_2) {
-      return function (_3) {
-          if (_2 instanceof Celsius) {
-              return _3 - 273.15;
+      throw new Error("Failed pattern match at Main line 9, column 1 - line 10, column 1: " + [ _0.constructor.name ]);
+  };
+  var toKelvin = function (_1) {
+      return function (_2) {
+          if (_1 instanceof Celsius) {
+              return _2 + 273.15;
           };
-          if (_2 instanceof Kelvin) {
-              return _3;
+          if (_1 instanceof Kelvin) {
+              return _2;
           };
-          if (_2 instanceof Fahrenheit) {
-              return (_3 * 9.0) / 5.0 - 459.67;
+          if (_1 instanceof Fahrenheit) {
+              return ((_2 + 459.67) * 5.0) / 9.0;
           };
-          throw new Error("Failed pattern match at Main line 19, column 1 - line 20, column 1: " + [ _2.constructor.name, _3.constructor.name ]);
+          throw new Error("Failed pattern match at Main line 13, column 1 - line 14, column 1: " + [ _1.constructor.name, _2.constructor.name ]);
       };
   };
-  var convert = function (t) {
+  var fromKelvin = function (_3) {
+      return function (_4) {
+          if (_3 instanceof Celsius) {
+              return _4 - 273.15;
+          };
+          if (_3 instanceof Kelvin) {
+              return _4;
+          };
+          if (_3 instanceof Fahrenheit) {
+              return (_4 * 9.0) / 5.0 - 459.67;
+          };
+          throw new Error("Failed pattern match at Main line 18, column 1 - line 19, column 1: " + [ _3.constructor.name, _4.constructor.name ]);
+      };
+  };
+  var convert = function (from) {
+      return function (to) {
+          return function (_10) {
+              return $$Math.round(fromKelvin(to)(toKelvin(from)(_10)));
+          };
+      };
+  };
+  var render = function (t) {
       return function (from) {
           return function (to) {
-              return $$Math.round(fromKelvin(to)(toKelvin(from)(t)));
+              var t$prime = convert(from)(to)(t);
+              return Prelude.show(Prelude.showNumber)(t) + (toString(from) + (" corresponds to " + (Prelude.show(Prelude.showNumber)(t$prime) + toString(to))));
           };
       };
   };
   var flare = (function () {
       var unit = function (label) {
-          return Flare.radioGroup(showTUnit)(label)(Celsius.value)([ Kelvin.value, Fahrenheit.value ]);
+          return Flare.radioGroup(label)(Celsius.value)([ Kelvin.value, Fahrenheit.value ])(toString);
       };
-      return Prelude["<*>"](Flare.applyUI)(Prelude["<*>"](Flare.applyUI)(Prelude["<$>"](Flare.functorUI)(convert)(Flare.number("Temperature")(100.0)))(unit("Unit")))(unit("Convert to"));
+      return Prelude["<*>"](Flare.applyUI)(Prelude["<*>"](Flare.applyUI)(Prelude["<$>"](Flare.functorUI)(render)(Flare.number("Temperature")(100.0)))(unit("Unit")))(unit("Convert to"));
   })();
-  var main = Flare.runFlare(Prelude.showNumber)("controls")("output")(flare);
+  var main = Flare.runFlare("controls")("output")(flare);
   exports["Celsius"] = Celsius;
   exports["Kelvin"] = Kelvin;
   exports["Fahrenheit"] = Fahrenheit;
   exports["main"] = main;
   exports["flare"] = flare;
+  exports["render"] = render;
   exports["convert"] = convert;
   exports["fromKelvin"] = fromKelvin;
   exports["toKelvin"] = toKelvin;
-  exports["showTUnit"] = showTUnit;;
+  exports["toString"] = toString;;
  
 })(PS["Main"] = PS["Main"] || {});
 
