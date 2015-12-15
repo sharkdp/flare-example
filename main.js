@@ -631,12 +631,12 @@ var PS = { };
   };
   var runFlareWith = function (controls) {
       return function (handler) {
-          return function (_6) {
+          return function (_10) {
               return function __do() {
-                  var _4 = _6();
+                  var _6 = _10();
                   $foreign.removeChildren(controls)();
-                  Data_Foldable.traverse_(Control_Monad_Eff.applicativeEff)(Data_Foldable.foldableArray)($foreign.appendComponent(controls))(_4.value0)();
-                  return Signal.runSignal(Prelude.map(Signal.functorSignal)(handler)(_4.value1))();
+                  Data_Foldable.traverse_(Control_Monad_Eff.applicativeEff)(Data_Foldable.foldableArray)($foreign.appendComponent(controls))(_6.value0)();
+                  return Signal.runSignal(Prelude.map(Signal.functorSignal)(handler)(_6.value1))();
               };
           };
       };
@@ -647,24 +647,24 @@ var PS = { };
       };
   };
   var functorFlare = new Prelude.Functor(function (f) {
-      return function (_7) {
-          return new Flare(_7.value0, Prelude.map(Signal.functorSignal)(f)(_7.value1));
+      return function (_11) {
+          return new Flare(_11.value0, Prelude.map(Signal.functorSignal)(f)(_11.value1));
       };
   });
   var functorUI = new Prelude.Functor(function (f) {
-      return function (_10) {
-          return UI(Prelude.map(Control_Monad_Eff.functorEff)(Prelude.map(functorFlare)(f))(_10));
+      return function (_14) {
+          return UI(Prelude.map(Control_Monad_Eff.functorEff)(Prelude.map(functorFlare)(f))(_14));
       };
   });
   var createUI = function (createComp) {
       return function (id) {
           return function ($$default) {
               return UI(function __do() {
-                  var _3 = Signal_Channel.channel($$default)();
-                  var _2 = createComp(id)($$default)(Signal_Channel.send(_3))();
+                  var _1 = Signal_Channel.channel($$default)();
+                  var _0 = createComp(id)($$default)(Signal_Channel.send(_1))();
                   return (function () {
-                      var signal = Signal_Channel.subscribe(_3);
-                      return Prelude["return"](Control_Monad_Eff.applicativeEff)(new Flare([ _2 ], signal));
+                      var signal = Signal_Channel.subscribe(_1);
+                      return Prelude["return"](Control_Monad_Eff.applicativeEff)(new Flare([ _0 ], signal));
                   })()();
               });
           };
@@ -682,20 +682,18 @@ var PS = { };
   };                           
   var applyFlare = new Prelude.Apply(function () {
       return functorFlare;
-  }, function (_8) {
-      return function (_9) {
-          return new Flare(Prelude["<>"](Prelude.semigroupArray)(_8.value0)(_9.value0), Prelude["<*>"](Signal.applySignal)(_8.value1)(_9.value1));
+  }, function (_12) {
+      return function (_13) {
+          return new Flare(Prelude["<>"](Prelude.semigroupArray)(_12.value0)(_13.value0), Prelude["<*>"](Signal.applySignal)(_12.value1)(_13.value1));
       };
   });
   var applyUI = new Prelude.Apply(function () {
       return functorUI;
-  }, function (_11) {
-      return function (_12) {
-          return UI(Control_Apply.lift2(Control_Monad_Eff.applyEff)(Prelude.apply(applyFlare))(_11)(_12));
+  }, function (_15) {
+      return function (_16) {
+          return UI(Control_Apply.lift2(Control_Monad_Eff.applyEff)(Prelude.apply(applyFlare))(_15)(_16));
       };
   });
-  exports["UI"] = UI;
-  exports["Flare"] = Flare;
   exports["runFlare"] = runFlare;
   exports["runFlareWith"] = runFlareWith;
   exports["radioGroup"] = radioGroup;
@@ -770,7 +768,7 @@ var PS = { };
           if (_1 instanceof Fahrenheit) {
               return ((_2 + 459.67) * 5.0) / 9.0;
           };
-          throw new Error("Failed pattern match at Main line 13, column 1 - line 14, column 1: " + [ _1.constructor.name, _2.constructor.name ]);
+          throw new Error("Failed pattern match at Main line 14, column 1 - line 15, column 1: " + [ _1.constructor.name, _2.constructor.name ]);
       };
   };
   var fromKelvin = function (_3) {
@@ -784,7 +782,7 @@ var PS = { };
           if (_3 instanceof Fahrenheit) {
               return (_4 * 9.0) / 5.0 - 459.67;
           };
-          throw new Error("Failed pattern match at Main line 18, column 1 - line 19, column 1: " + [ _3.constructor.name, _4.constructor.name ]);
+          throw new Error("Failed pattern match at Main line 19, column 1 - line 20, column 1: " + [ _3.constructor.name, _4.constructor.name ]);
       };
   };
   var convert = function (from) {
