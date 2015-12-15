@@ -6,6 +6,7 @@ import Flare
 
 data TUnit = Celsius | Kelvin | Fahrenheit
 
+toString :: TUnit -> String
 toString Celsius    = "°C"
 toString Kelvin     = "K"
 toString Fahrenheit = "°F"
