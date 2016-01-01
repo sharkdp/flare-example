@@ -9,6 +9,6 @@ You will need Purescript and pulp. See the [Purescript website](http://www.pures
 ```
 git clone https://github.com/sharkdp/flare-example.git
 cd flare-example
-pulp dep install
+bower install
 pulp build -O -t main.js
 ```
