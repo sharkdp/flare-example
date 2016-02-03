@@ -1,8 +1,8 @@
 module Main where
 
 import Prelude
-import Math
-import Flare
+import Math (round)
+import Flare (UI, number, radioGroup, runFlare)
 
 data TUnit = Celsius | Kelvin | Fahrenheit
 
@@ -29,6 +29,7 @@ render t from to = show t  ++ toString from ++ " corresponds to " ++
                    show t' ++ toString to
   where t' = convert from to t
 
+flare :: forall eff. UI eff String
 flare = render <$> number "Temperature" 100.0
                <*> unit "Unit"
                <*> unit "Convert to"
