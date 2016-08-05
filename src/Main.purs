@@ -2,6 +2,7 @@ module Main where
 
 import Prelude
 import Math (round)
+import Data.NonEmpty ((:|))
 import Flare (UI, number, radioGroup, runFlare)
 
 data TUnit = Celsius | Kelvin | Fahrenheit
@@ -25,8 +26,8 @@ convert :: TUnit -> TUnit -> Number -> Number
 convert from to = round <<< fromKelvin to <<< toKelvin from
 
 render :: Number -> TUnit -> TUnit -> String
-render t from to = show t  ++ toString from ++ " corresponds to " ++
-                   show t' ++ toString to
+render t from to = show t  <> toString from <> " corresponds to " <>
+                   show t' <> toString to
   where t' = convert from to t
 
 flare :: forall eff. UI eff String
@@ -34,6 +35,6 @@ flare = render <$> number "Temperature" 100.0
                <*> unit "Unit"
                <*> unit "Convert to"
 
-  where unit label = radioGroup label Celsius [Kelvin, Fahrenheit] toString
+  where unit label = radioGroup label (Celsius :| [Kelvin, Fahrenheit]) toString
 
 main = runFlare "controls" "output" flare
